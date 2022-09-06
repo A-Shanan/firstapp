@@ -36,7 +36,11 @@ class HomePage extends StatelessWidget {
               if (user?.emailVerified ?? false) {
                 print('your email is verified');
               } else {
-                print('you have to verify your email');
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const VerifyEmailView(),
+                  ),
+                );
               }
               return const Text('done');
             default:
@@ -45,5 +49,19 @@ class HomePage extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class VerifyEmailView extends StatefulWidget {
+  const VerifyEmailView({super.key});
+
+  @override
+  State<VerifyEmailView> createState() => _VerifyEmailViewState();
+}
+
+class _VerifyEmailViewState extends State<VerifyEmailView> {
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold();
   }
 }
