@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firstapp/View/register_view.dart';
-import 'package:firstapp/View/verify_email_view.dart';
 import 'package:firstapp/firebase_options.dart';
 import 'package:flutter/material.dart';
+import 'dart:developer' as devtools show log;
 
 import 'package:firstapp/View/login_view.dart';
+import 'package:firstapp/View/register_view.dart';
+import 'package:firstapp/View/verify_email_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -71,7 +72,19 @@ class _NotesViewState extends State<NotesView> {
       appBar: AppBar(
         actions: [
           PopupMenuButton<MenuAction>(
-            onSelected: (value) {},
+            onSelected: (value) async {
+              switch (value) {
+                case MenuAction.logout:
+                  final shouldLogout = await showLogOutDialog(context);
+                  if (shouldLogout) {
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/login/',
+                      (_) => false,
+                    );
+                  }
+              }
+            },
             itemBuilder: (context) {
               return const [
                 PopupMenuItem<MenuAction>(
@@ -87,4 +100,30 @@ class _NotesViewState extends State<NotesView> {
       body: const Text('Hello World'),
     );
   }
+}
+
+Future<bool> showLogOutDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Sign Out'),
+        content: const Text('ARE you SURE you want to sign out?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: const Text('Log Out'),
+          ),
+        ],
+      );
+    },
+  ).then((value) => value ?? false);
 }
