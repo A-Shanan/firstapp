@@ -110,7 +110,10 @@ class MockAuthProvider implements AuthProvider {
     if (!isInitialize) throw NotInitializeException();
     if (email == 'qwe@asd.zxc') throw UserNotFoundAuthException();
     if (password == '123456423') throw WrongPasswordAuthException();
-    const user = AuthUser(isEmailVerified: false);
+    const user = AuthUser(
+      isEmailVerified: false,
+      email: 'foo@bar.bez',
+    );
     _user = user;
     return Future.value(user);
   }
@@ -119,7 +122,7 @@ class MockAuthProvider implements AuthProvider {
   Future<void> logOut() async {
     if (!isInitialize) throw NotInitializeException();
     if (_user == null) throw UserNotFoundAuthException();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     _user = null;
   }
 
@@ -128,7 +131,10 @@ class MockAuthProvider implements AuthProvider {
     if (!isInitialize) throw NotInitializeException();
     final user = _user;
     if (user == null) throw UserNotFoundAuthException();
-    const newUser = AuthUser(isEmailVerified: true);
+    const newUser = AuthUser(
+      isEmailVerified: true,
+      email: 'foo@bar.bez',
+    );
     _user = newUser;
   }
 }
