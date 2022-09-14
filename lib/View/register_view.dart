@@ -1,9 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
-import 'package:firstapp/services/auth/auth_exceptions.dart';
-import 'package:firstapp/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
-import 'package:firstapp/utilities/show_error_dialog.dart';
+import 'package:firstapp/services/auth/auth_exceptions.dart';
+import 'package:firstapp/services/auth/auth_service.dart';
+import 'package:firstapp/utilities/dailogs/error_dialog.dart';
 import 'package:firstapp/constants/routes.dart';
 
 class RegisterView extends StatefulWidget {
